@@ -2,10 +2,44 @@
 <html lang="pl">
     <head>
         <meta charset="utf-8" />
-        <title>App</title>
-        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <meta name="google-signin-scope" content="profile">
+    	<meta name="google-signin-client_id" content="570516870447-p8q7b2blehn7poshv16f55kncb700ml8.apps.googleusercontent.com">
+        <title>ATLAS TDAQ Publications</title>
+        <link href="css/normalize.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet" />
+        <script src="js/react-15.3.1/build/react.js"></script>
+    	<script src="js/react-15.3.1/build/react-dom.js"></script>
+    	<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    	<script src="js/jquery-3.1.0.min.js"></script>
+    	<script src="https://apis.google.com/js/platform.js" async defer></script>
+    	<script>
+    		function onSignIn(googleUser) {
+				localStorage.setItem('token', googleUser.getAuthResponse().id_token);
+				console.log(googleUser);
+			}
+    	</script>
     </head>
     <body>
-        aaa
+
+    	<nav id="app-nav">
+    		<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    	</nav>
+
+    	<header id="app-header">
+    		<h1>ATLAS TDAQ Publications</h1>
+    	</header>
+
+    	<main id="app-container">
+    		<p>Open project...</p>
+    		<div id="project-list"></div>
+    		<p>... or create new</p>
+    	</main>
+
+    	<footer id="app-footer">
+    		<p>Made by Kamil Drzazga</p>
+    	</footer>
+
+        <script src="js/app.jsx" type="text/babel"></script>
     </body>
 </html>
