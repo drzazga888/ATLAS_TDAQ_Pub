@@ -2,8 +2,6 @@
 <html lang="pl">
     <head>
         <meta charset="utf-8" />
-        <meta name="google-signin-scope" content="profile">
-    	<meta name="google-signin-client_id" content="570516870447-p8q7b2blehn7poshv16f55kncb700ml8.apps.googleusercontent.com">
         <title>ATLAS TDAQ Publications</title>
         <link href="css/normalize.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" />
@@ -12,18 +10,11 @@
     	<script src="js/react-15.3.1/build/react-dom.js"></script>
     	<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
     	<script src="js/jquery-3.1.0.min.js"></script>
-    	<script src="https://apis.google.com/js/platform.js" async defer></script>
-    	<script>
-    		function onSignIn(googleUser) {
-				localStorage.setItem('token', googleUser.getAuthResponse().id_token);
-				console.log(googleUser);
-			}
-    	</script>
     </head>
     <body>
 
     	<nav id="app-nav">
-    		<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    		<div id="google-signin"></div>
     	</nav>
 
     	<header id="app-header">
