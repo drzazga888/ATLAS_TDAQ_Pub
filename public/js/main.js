@@ -1,0 +1,19 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
+import ProjectList from './components/project-list.js';
+import GoogleSignIn from './components/google-sign-in.js';
+
+$(document).ready(function(){
+
+    ReactDOM.render(
+        <ProjectList url="/api/project/" />,
+        $('#project-list')[0]
+    );
+
+    ReactDOM.render(
+        <GoogleSignIn client="570516870447-p8q7b2blehn7poshv16f55kncb700ml8.apps.googleusercontent.com" />,
+        $('#google-signin')[0]
+    );
+
+});

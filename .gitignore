@@ -2,4 +2,10 @@
 /logs/*
 !/logs/README.md
 .idea/workspace.xml
-bower_components/
+.idea/ATLAS_TDAQ_Pub.iml
+.idea/copyright/
+.idea/misc.xml
+.idea/modules.xml
+node_modules/
+package.json
+public/js/bundle.js
