@@ -32,7 +32,7 @@ class GoogleSignInService {
         curl_close($ch);
 
         // If the API is JSON, use json_decode.
-        $this->result = json_decode($raw_data);
+        $this->result = json_decode($raw_data, true);
 
         return !array_key_exists(self::ERROR_KEY, $this->result);
     }

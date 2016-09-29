@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import ProjectList from './components/project-list.js';
-import GoogleSignIn from './components/google-sign-in.js';
+import ProjectList from './components/project-list';
+import GoogleSignIn from './components/google-sign-in';
 
 $(document).ready(function(){
 
@@ -15,5 +15,9 @@ $(document).ready(function(){
         <GoogleSignIn client="570516870447-p8q7b2blehn7poshv16f55kncb700ml8.apps.googleusercontent.com" />,
         $('#google-signin')[0]
     );
+
+    $(document).on('google-sign-in-status-changed', function() {
+        console.log('google-sign-in-status-changed');
+    });
 
 });

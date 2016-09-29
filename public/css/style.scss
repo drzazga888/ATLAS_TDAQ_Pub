@@ -1,0 +1,52 @@
+$color-bkg: #161A1C;
+$color-bkg-block: #253030;
+$color-input: #3A689C;
+$color-font: #DBFFF2;
+$color-accent: #EB2100;
+
+$margin-default: 1em 20px;
+$padding-block: 0 1em;
+$padding-button: 0.5em 1em;
+
+.block {
+  margin: $margin-default;
+  padding: $padding-block;
+  overflow: auto;
+}
+
+.styled {
+  border: none;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
+}
+
+.block.styled {
+  background: $color-bkg-block;
+}
+
+.inline {
+  .block {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.button {
+  @extend .styled;
+  padding: $padding-button;
+  background: $color-input;
+}
+
+body {
+  background: $color-bkg;
+
+  * {
+    color: $color-font;
+    font-family: 'Dosis', sans-serif;
+  }
+
+}
+
+#app-nav {
+  background: $color-bkg-block;
+}

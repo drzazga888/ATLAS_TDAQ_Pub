@@ -5,12 +5,12 @@ export default class GoogleSignIn extends React.Component {
 
     constructor(props) {
         super(props);
-        localStorage.removeItem('token');
         this.gAuth = null;
-        this.state = {
+        this.initialState = {
             message: 'You are not logged in',
             loggedIn: false
         };
+        this.state = this.initialState;
     }
 
     componentDidMount() {
@@ -28,9 +28,10 @@ export default class GoogleSignIn extends React.Component {
                         var profile = googleUser.getBasicProfile();
                         localStorage.setItem('token', googleUser.getAuthResponse().id_token);
                         reactThis.setState({message: 'Logged in as ' + profile.getName() + ' (' + profile.getEmail() + ')', loggedIn: true});
+                        $(document).trigger('google-logged-in');
                     },
                     onFailure: function() {
-                        reactThis.setState({message: 'Bad credentials', loggedIn: false});
+                        reactThis.setState({message: 'Error while authenticating', loggedIn: false});
                     }
                 });
             });
@@ -40,15 +41,18 @@ export default class GoogleSignIn extends React.Component {
     logOut() {
         this.gAuth.signOut();
         localStorage.removeItem('token');
-        this.setState(this.getInitialState());
+        this.setState(this.initialState);
+        $(document).trigger('google-logged-out');
     }
 
     render() {
         return (
             <div>
-                <div id="google-sign-in-button"></div>
-                <p>{this.state.message}</p>
-                {this.state.loggedIn ? <button onClick={this.logOut}>Log out</button> : null}
+                <div className="block">
+                    <div id="google-sign-in-button"></div>
+                </div>
+                <p className="block">{this.state.message}</p>
+                {this.state.loggedIn ? <button className="button" onClick={this.logOut.bind(this)}>Log out</button> : null}
             </div>
         );
     }

@@ -9,3 +9,5 @@
 node_modules/
 package.json
 public/js/bundle.js
+/public/css/style.css
+/public/css/style.css.map
