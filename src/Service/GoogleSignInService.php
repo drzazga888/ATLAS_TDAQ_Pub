@@ -37,10 +37,6 @@ class GoogleSignInService {
         return !array_key_exists(self::ERROR_KEY, $this->result);
     }
 
-    public function getError() {
-        return $this->result[self::ERROR_KEY];
-    }
-
     public function getResult() {
         return $this->result;
     }

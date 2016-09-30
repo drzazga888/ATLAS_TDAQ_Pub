@@ -11,10 +11,12 @@ namespace Api\Controller;
 
 abstract class AbstractController {
 
-    protected $ci;
+    protected $authenticator;
+    protected $table;
 
-    public function __construct($ci) {
-        $this->ci = $ci;
+    public function __construct($ci, $tableName) {
+        $this->table = $ci->get('db')->table($tableName);
+        $this->authenticator = $ci->get('authenticator');
     }
 
 }

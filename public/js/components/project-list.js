@@ -43,7 +43,7 @@ export default class ProjectList extends React.Component {
 
     render() {
         var itemNodes = this.state.data.map(function(item) {
-            return <ProjectListItem key={item.id} name={item.name} />;
+            return <ProjectListItem key={item.id} data={item} />;
         });
         return (
             <div className="block">

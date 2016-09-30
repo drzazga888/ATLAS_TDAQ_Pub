@@ -21,3 +21,14 @@ $container['logger'] = function ($c) {
 $container['authenticator'] = function($c) {
     return new \Api\Service\GoogleSignInService($c->get('request'));
 };
+
+// Service factory for the ORM
+$container['db'] = function ($container) {
+    $capsule = new \Illuminate\Database\Capsule\Manager;
+    $capsule->addConnection($container['settings']['db']);
+
+    $capsule->setAsGlobal();
+    $capsule->bootEloquent();
+
+    return $capsule;
+};

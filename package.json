@@ -1,0 +1,31 @@
+{
+  "name": "cern-pub",
+  "version": "1.0.0",
+  "description": "CERN ATLAS Publications",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "browserify -t [ babelify ] public/js/main.js -o public/js/bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drzazga888/ATLAS_TDAQ_Pub.git"
+  },
+  "author": "Kamil Drzazga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drzazga888/ATLAS_TDAQ_Pub/issues"
+  },
+  "homepage": "https://github.com/drzazga888/ATLAS_TDAQ_Pub#readme",
+  "dependencies": {
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babelify": "^7.3.0",
+    "jquery": "^3.1.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
+  }
+}
