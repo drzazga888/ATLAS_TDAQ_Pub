@@ -7,8 +7,8 @@ export default class GoogleSignIn extends React.Component {
         super(props);
         this.gAuth = null;
         this.initialState = {
-            message: 'You are not logged in',
-            loggedIn: false
+            message: 'Please log in',
+            identity: null
         };
         this.state = this.initialState;
     }
@@ -27,11 +27,17 @@ export default class GoogleSignIn extends React.Component {
                     onSuccess: function(googleUser) {
                         var profile = googleUser.getBasicProfile();
                         localStorage.setItem('token', googleUser.getAuthResponse().id_token);
-                        reactThis.setState({message: 'Logged in as ' + profile.getName() + ' (' + profile.getEmail() + ')', loggedIn: true});
+                        reactThis.setState({
+                            message: 'Logged in',
+                            identity: profile.getName() + ' (' + profile.getEmail() + ')'
+                        });
                         $(document).trigger('google-logged-in');
                     },
                     onFailure: function() {
-                        reactThis.setState({message: 'Error while authenticating', loggedIn: false});
+                        reactThis.setState({
+                            message: 'Error while authenticating',
+                            identity: null
+                        });
                     }
                 });
             });
@@ -47,12 +53,15 @@ export default class GoogleSignIn extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="block">
+            <div className="inline-wrapper">
+                <p className="inline-element">
+                    {this.state.message} -
+                    {this.state.identity ? <em>{this.state.identity}</em> : <em>You're a guest</em>}
+                </p>
+                {this.state.identity ? <button className="inline-element" onClick={this.logOut.bind(this)}>Log out</button> : null}
+                <div className="inline-element">
                     <div id="google-sign-in-button"></div>
                 </div>
-                <p className="block">{this.state.message}</p>
-                {this.state.loggedIn ? <button className="button" onClick={this.logOut.bind(this)}>Log out</button> : null}
             </div>
         );
     }

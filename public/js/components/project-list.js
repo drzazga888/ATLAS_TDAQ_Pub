@@ -46,7 +46,7 @@ export default class ProjectList extends React.Component {
             return <ProjectListItem key={item.id} name={item.name} />;
         });
         return (
-            <div className="block styled">
+            <div className="block">
                 <header>
                     <h2>Project list</h2>
                 </header>
@@ -54,7 +54,7 @@ export default class ProjectList extends React.Component {
                     {itemNodes}
                 </section>
                 <footer>
-                    <p className="message">{this.state.message}</p>
+                    {this.state.message ? <p className="description icon-attention">{this.state.message}</p> : null}
                 </footer>
             </div>
         );

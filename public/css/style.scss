@@ -2,51 +2,127 @@ $color-bkg: #161A1C;
 $color-bkg-block: #253030;
 $color-input: #3A689C;
 $color-font: #DBFFF2;
-$color-accent: #EB2100;
+$color-accent: #EB5448;
 
+$margin-block: 2em 20px;
 $margin-default: 1em 20px;
+$margin-reduced-height: 0 20px;
 $padding-block: 0 1em;
 $padding-button: 0.5em 1em;
 
 .block {
-  margin: $margin-default;
-  padding: $padding-block;
+  margin: $margin-block;
   overflow: auto;
-}
-
-.styled {
-  border: none;
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
-}
-
-.block.styled {
   background: $color-bkg-block;
 }
 
-.inline {
-  .block {
+.block > header {
+  border-bottom: dashed 1px $color-input;
+}
+
+.inline-wrapper {
+
+  .inline-element {
     display: inline-block;
     vertical-align: middle;
   }
+
 }
 
-.button {
-  @extend .styled;
+.description {
+  font-style: italic;
+  color: transparentize($color-font, 0.5);
+  font-size: 1.25em;
+}
+
+.move-left {
+  float: left;
+}
+
+.move-right {
+  float: right;
+}
+
+button {
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
   padding: $padding-button;
   background: $color-input;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+* {
+  color: $color-font;
+  font-family: 'Dosis', sans-serif;
 }
 
 body {
   background: $color-bkg;
+}
 
-  * {
-    color: $color-font;
-    font-family: 'Dosis', sans-serif;
-  }
+p, h1, h2 {
+  margin: $margin-default;
+}
 
+em {
+  color: $color-accent;
 }
 
 #app-nav {
+  overflow: auto;
   background: $color-bkg-block;
+}
+
+#app-header {
+  text-align: center;
+}
+
+#app-footer {
+  border-top: solid 2px $color-accent;
+
+  * {
+    color: transparentize($color-font, 0.5);
+  }
+}
+
+#app-menu {
+  margin: $margin-default;
+  padding: 0;
+  height: 100%;
+}
+
+#app-menu li {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1.2em;
+  box-sizing: border-box;
+}
+
+#app-menu a {
+  text-decoration: none;
+  padding: $padding-button;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+#app-menu a:hover {
+  background: transparentize($color-font, 0.8);
+}
+
+#app-menu li.active a:after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: $color-accent;
+}
+
+#google-sign-in-button {
+  margin: $margin-reduced-height;
 }

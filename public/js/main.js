@@ -16,8 +16,4 @@ $(document).ready(function(){
         $('#google-signin')[0]
     );
 
-    $(document).on('google-sign-in-status-changed', function() {
-        console.log('google-sign-in-status-changed');
-    });
-
 });

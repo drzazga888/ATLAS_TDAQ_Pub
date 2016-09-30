@@ -1,49 +1,92 @@
-*,
-*:before,
-*:after {
-	color: #DAE8DC;
-	font-family: 'Dosis', sans-serif;
-}
-
-body {
-	background: #3F576E;
-}
-
-p, h1, h2 {
-	margin: 1em 20px;
-}
-
-button {
-	background: #5382B6;
-	border-radius: 2px;
-	box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
-	border: none;
-	padding: 0.3em 1em;
-	margin: 1em 20px;
-}
-
 .block {
-	background: #5382B6;
-	margin: 1em;
-	overflow: auto;
-	border-radius: 2px;
-	box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
-}
+  margin: 2em 20px;
+  overflow: auto;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
+  background: #253030; }
 
 .block > header {
-	border-bottom: solid 2px #23CCCA;
-}
+  border-bottom: dashed 1px #3A689C; }
+
+.inline-wrapper .inline-element {
+  display: inline-block;
+  vertical-align: middle; }
+
+.description {
+  font-style: italic;
+  color: rgba(219, 255, 242, 0.5);
+  font-size: 1.25em; }
+
+.move-left {
+  float: left; }
+
+.move-right {
+  float: right; }
+
+button {
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
+  padding: 0.5em 1em;
+  background: #3A689C;
+  border-radius: 2px;
+  cursor: pointer; }
+
+* {
+  color: #DBFFF2;
+  font-family: 'Dosis', sans-serif; }
+
+body {
+  background: #161A1C; }
+
+p, h1, h2 {
+  margin: 1em 20px; }
+
+em {
+  color: #EB5448; }
 
 #app-nav {
-	border-bottom: solid 2px #5382B6;
-	padding: 0.5em 1em;
-}
+  overflow: auto;
+  background: #253030; }
 
 #app-header {
-	text-align: center;
-}
+  text-align: center; }
 
 #app-footer {
-	border-top: solid 2px #5382B6;
-	opacity: 0.7;
-}
+  border-top: solid 2px #EB5448; }
+  #app-footer * {
+    color: rgba(219, 255, 242, 0.5); }
+
+#app-menu {
+  margin: 1em 20px;
+  padding: 0;
+  height: 100%; }
+
+#app-menu li {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1.2em;
+  box-sizing: border-box; }
+
+#app-menu a {
+  text-decoration: none;
+  padding: 0.5em 1em;
+  position: relative;
+  transition: background-color 0.2s; }
+
+#app-menu a:hover {
+  background: rgba(219, 255, 242, 0.2); }
+
+#app-menu li.active a:after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #EB5448; }
+
+#google-sign-in-button {
+  margin: 0 20px; }
+
+/*# sourceMappingURL=style.css.map */
