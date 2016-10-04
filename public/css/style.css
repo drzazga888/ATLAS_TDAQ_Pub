@@ -28,8 +28,12 @@ button {
   box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
   padding: 0.5em 1em;
   background: #3A689C;
+  transition: background-color 0.2s;
   border-radius: 2px;
   cursor: pointer; }
+
+button:hover {
+  background: #4c81bd; }
 
 * {
   color: #DBFFF2;
@@ -43,6 +47,13 @@ p, h1, h2 {
 
 em {
   color: #EB5448; }
+
+input {
+  border: none;
+  background: transparent;
+  border-bottom: solid 2px #EB5448;
+  padding: 0.5em 1em;
+  width: 400px; }
 
 #app-nav {
   overflow: auto;

@@ -11,12 +11,16 @@ namespace Api\Controller;
 
 abstract class AbstractController {
 
-    protected $authenticator;
-    protected $table;
+    protected $ci;
 
-    public function __construct($ci, $tableName) {
-        $this->table = $ci->get('db')->table($tableName);
-        $this->authenticator = $ci->get('authenticator');
+    public function __construct($ci) {
+        $this->ci = $ci;
+    }
+
+    protected function authorize() {
+        $client = $this->ci->google_client;
+        $token = $this->ci->request->getHeader('Authorization');
+        return $token ? $client->verifyIdToken($token[0]) : null;
     }
 
 }

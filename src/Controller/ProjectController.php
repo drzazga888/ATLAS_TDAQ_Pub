@@ -5,13 +5,10 @@ namespace Api\Controller;
 
 class ProjectController extends AbstractController {
 
-    public function __construct($ci) {
-        parent::__construct($ci, 'projects');
-    }
-
     public function getProjects($request, $response) {
-        if ($this->authenticator->authorize()) {
-            return $response->withJson($this->table->get());
+        if ($this->authorize()) {
+            $fromDb = $this->ci->db->table('projects')->get();
+            return $response->withJson($fromDb);
         } else {
             return $response->withStatus(401);
         }

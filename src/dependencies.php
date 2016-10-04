@@ -18,17 +18,17 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
-$container['authenticator'] = function($c) {
-    return new \Api\Service\GoogleSignInService($c->get('request'));
+$container['google_client'] = function($c) {
+    $client = new \Google_Client();
+    $client->setAuthConfigFile(__DIR__ . '/client_secret.json');
+    return $client;
 };
 
 // Service factory for the ORM
 $container['db'] = function ($container) {
     $capsule = new \Illuminate\Database\Capsule\Manager;
     $capsule->addConnection($container['settings']['db']);
-
     $capsule->setAsGlobal();
     $capsule->bootEloquent();
-
     return $capsule;
 };
