@@ -13,13 +13,25 @@ $(document).ready(function(){
     );
 
     ReactDOM.render(
-        <ProjectForm docsUrl="/api/google-docs/"/>,
+        <ProjectForm
+            apiKey="AIzaSyC0Y7UDbqI2urerN7tKQ5-5rUnbYniDS-o"
+            client="570516870447-p8q7b2blehn7poshv16f55kncb700ml8.apps.googleusercontent.com"
+            docsUrl="/api/google-docs/"
+        />,
         $('#project-form')[0]
     );
 
     ReactDOM.render(
-        <GoogleSignIn client="570516870447-p8q7b2blehn7poshv16f55kncb700ml8.apps.googleusercontent.com" />,
+        <GoogleSignIn
+            client="570516870447-p8q7b2blehn7poshv16f55kncb700ml8.apps.googleusercontent.com"
+            apiKey="AIzaSyC0Y7UDbqI2urerN7tKQ5-5rUnbYniDS-o"
+        />,
         $('#google-signin')[0]
     );
+
+    $.getScript('https://apis.google.com/js/api.js', function() {
+        "use strict";
+        $(document).trigger('google-apis-loaded');
+    });
 
 });

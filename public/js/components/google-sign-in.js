@@ -15,16 +15,23 @@ export default class GoogleSignIn extends React.Component {
 
     componentDidMount() {
         var reactThis = this;
-        $.getScript('https://apis.google.com/js/platform.js', function() {
-            gapi.load('auth2', function() {
+        $(document).on('google-apis-loaded', function() {
+            gapi.load('client:auth2', function() {
+                gapi.client.setApiKey(reactThis.props.apiKey);
                 reactThis.gAuth = gapi.auth2.init({
                     client_id: reactThis.props.client,
                     //fetch_basic_profile: false,
                     scope: 'profile'
+                }).then(function () {
+                    // Listen for sign-in state changes.
+                    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+                    signinButton.addEventListener("click", handleSigninClick);
                 });
                 gapi.signin2.render('google-sign-in-button', {
                     theme: 'dark',
                     onSuccess: function(googleUser) {
+                        console.log('loaded!');
                         var profile = googleUser.getBasicProfile();
                         localStorage.setItem('token', googleUser.getAuthResponse().id_token);
                         reactThis.setState({
@@ -34,6 +41,7 @@ export default class GoogleSignIn extends React.Component {
                         $(document).trigger('google-logged-in');
                     },
                     onFailure: function() {
+                        console.log('err-loaded!');
                         reactThis.setState({
                             message: 'Error while authenticating',
                             identity: null

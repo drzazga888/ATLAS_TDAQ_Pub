@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="MySQL - cern_pub@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="2.6">
+    <schema id="1" name="cern_pub">
+      <visible>1</visible>
+    </schema>
+    <schema id="2" name="afv_responsive"/>
+    <schema id="3" name="afv_tests"/>
+    <schema id="4" name="imgJoiner"/>
+    <schema id="5" name="information_schema"/>
+    <schema id="6" name="mysql"/>
+    <schema id="7" name="performance_schema"/>
+    <schema id="8" name="sys"/>
+    <table id="9" parent="1" name="projects"/>
+    <column id="10" parent="9" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="11" parent="9" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(40)|0</data-type>
+    </column>
+    <column id="12" parent="9" name="google_doc">
+      <mandatory>1</mandatory>
+      <data-type>varchar(40)|0</data-type>
+    </column>
+    <column id="13" parent="9" name="section">
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="14" parent="9" name="created_at">
+      <mandatory>1</mandatory>
+      <data-type>datetime|0</data-type>
+      <default-expression>CURRENT_TIMESTAMP</default-expression>
+    </column>
+    <column id="15" parent="9" name="updated_at">
+      <mandatory>1</mandatory>
+      <data-type>datetime|0</data-type>
+      <default-expression>CURRENT_TIMESTAMP</default-expression>
+    </column>
+    <index id="16" parent="9" name="name">
+      <columns>name</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="17" parent="9" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <key id="18" parent="9" name="name">
+      <columns>name</columns>
+      <underlying-index>name</underlying-index>
+    </key>
+  </database-model>
+</dataSource>

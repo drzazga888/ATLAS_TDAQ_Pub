@@ -10,6 +10,29 @@ export default class ProjectForm extends React.Component {
             google_doc: '',
             section: ''
         };
+        this.picker = null;
+    }
+
+    componentDidMount() {
+        var reactThis = this;
+        $(document).on('google-apis-loaded', function() {
+            gapi.load('picker', function() {
+                var view = new google.picker.View(google.picker.ViewId.DOCS);
+                view.setMimeTypes("image/png,image/jpeg,image/jpg");
+                reactThis.picker = new google.picker.PickerBuilder()
+                    .enableFeature(google.picker.Feature.NAV_HIDDEN)
+                    .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+                    .setAppId(reactThis.props.client)
+                    .setOAuthToken(localStorage.getItem('token'))
+                    .addView(view)
+                    .addView(new google.picker.DocsUploadView())
+                    .setDeveloperKey(reactThis.props.apiKey)
+                    .setCallback(function() {
+                        console.log('done');
+                    })
+                    .build();
+            });
+        });
     }
 
     testGoogle () {
@@ -26,6 +49,10 @@ export default class ProjectForm extends React.Component {
         });
     }
 
+    showDocsPicker() {
+        this.picker.setVisible(true);
+    }
+
     render() {
         return (
             <div className="block">
@@ -38,6 +65,7 @@ export default class ProjectForm extends React.Component {
                     </p>
                     <p>
                         <input type="text" value={this.state.google_doc} placeholder="Chose the Google Doc template" />
+                        <button onClick={this.showDocsPicker.bind(this)}>Select Google Document</button>
                     </p>
                     <p>
                         <input type="number" value={this.state.section} placeholder="Specify section of the document" />
