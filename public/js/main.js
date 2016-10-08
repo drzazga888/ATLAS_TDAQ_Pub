@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import ProjectList from './components/project-list';
+//import ProjectList from './components/project-list';
 import GoogleSignIn from './components/google-sign-in';
-import ProjectForm from './components/project-form';
+//import ProjectForm from './components/project-form';
 
 $(document).ready(function(){
 
-    ReactDOM.render(
+    /*ReactDOM.render(
         <ProjectList url="/api/project/" />,
         $('#project-list')[0]
     );
@@ -19,7 +19,7 @@ $(document).ready(function(){
             docsUrl="/api/google-docs/"
         />,
         $('#project-form')[0]
-    );
+    );*/
 
     ReactDOM.render(
         <GoogleSignIn

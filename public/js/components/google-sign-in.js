@@ -5,12 +5,27 @@ export default class GoogleSignIn extends React.Component {
 
     constructor(props) {
         super(props);
-        this.gAuth = null;
-        this.initialState = {
-            message: 'Please log in',
-            identity: null
+        this.auth2 = null;
+        this.state = {
+            identity: null,
+            loaded: false
         };
-        this.state = this.initialState;
+    }
+
+    updateSignInStatus(isSignedIn) {
+        if (isSignedIn) {
+            $(document).trigger('google-logged-in');
+            localStorage.setItem('token', 'SAMPLE_API_TOKEN');
+            this.setState({
+                identity: 'SAMPLE_USER_NAME'
+            });
+        } else {
+            $(document).trigger('google-logged-out');
+            localStorage.removeItem('token');
+            this.setState({
+                identity: null
+            });
+        }
     }
 
     componentDidMount() {
@@ -23,53 +38,55 @@ export default class GoogleSignIn extends React.Component {
                     //fetch_basic_profile: false,
                     scope: 'profile'
                 }).then(function () {
-                    // Listen for sign-in state changes.
-                    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-                    signinButton.addEventListener("click", handleSigninClick);
-                });
-                gapi.signin2.render('google-sign-in-button', {
-                    theme: 'dark',
-                    onSuccess: function(googleUser) {
-                        console.log('loaded!');
-                        var profile = googleUser.getBasicProfile();
-                        localStorage.setItem('token', googleUser.getAuthResponse().id_token);
-                        reactThis.setState({
-                            message: 'Logged in',
-                            identity: profile.getName() + ' (' + profile.getEmail() + ')'
-                        });
-                        $(document).trigger('google-logged-in');
-                    },
-                    onFailure: function() {
-                        console.log('err-loaded!');
-                        reactThis.setState({
-                            message: 'Error while authenticating',
-                            identity: null
-                        });
-                    }
+                    reactThis.auth2 = gapi.auth2.getAuthInstance();
+                    reactThis.setState({
+                        loaded: true
+                    });
+                    reactThis.auth2.isSignedIn.listen(reactThis.updateSignInStatus.bind(reactThis));
+                    reactThis.updateSignInStatus(reactThis.auth2.isSignedIn.get());
+                    console.log('ok  d yee');
                 });
             });
         });
     }
 
-    logOut() {
-        this.gAuth.signOut();
-        localStorage.removeItem('token');
-        this.setState(this.initialState);
-        $(document).trigger('google-logged-out');
+    signIn() {
+        this.auth2.signIn();
+    }
+
+    signOut() {
+        this.auth2.signOut();
     }
 
     render() {
+        var mainText;
+        var identityText;
+        var shouldLogInButtonVisible;
+        var shouldLogOutButtonVisible;
+        if (!this.state.loaded) {
+            mainText = 'Loading...';
+            identityText = null;
+            shouldLogInButtonVisible = false;
+            shouldLogOutButtonVisible = false;
+        } else if (!this.state.identity) {
+            mainText = 'Please log in';
+            identityText = 'You\'re a guest';
+            shouldLogInButtonVisible = true;
+            shouldLogOutButtonVisible = false;
+        } else {
+            mainText = 'Logged in';
+            identityText = this.state.identity;
+            shouldLogInButtonVisible = false;
+            shouldLogOutButtonVisible = true;
+        }
         return (
             <div className="inline-wrapper">
                 <p className="inline-element">
-                    {this.state.message} -
-                    {this.state.identity ? <em>{this.state.identity}</em> : <em>You're a guest</em>}
+                    {mainText}
+                    <em>{identityText}</em>
                 </p>
-                {this.state.identity ? <button className="inline-element" onClick={this.logOut.bind(this)}>Log out</button> : null}
-                <div className="inline-element">
-                    <div id="google-sign-in-button"></div>
-                </div>
+                {shouldLogOutButtonVisible ? <button onClick={this.signOut.bind(this)}>Log out</button> : null}
+                {shouldLogInButtonVisible ? <button onClick={this.signIn.bind(this)}>Log in</button> : null}
             </div>
         );
     }

@@ -8,6 +8,6 @@
 .idea/modules.xml
 node_modules/
 public/js/bundle.js
-/public/css/style.css
-/public/css/style.css.map
+public/css/style.css
+public/css/style.css.map
 .DS_Store
