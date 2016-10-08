@@ -8,7 +8,7 @@ export default class ProjectList extends React.Component {
         super(props);
         this.initialState = {
             data: [],
-            message: 'Please log in to application'
+            message: 'Loading...'
         };
         this.state = this.initialState;
     }

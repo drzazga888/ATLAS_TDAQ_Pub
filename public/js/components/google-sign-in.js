@@ -13,11 +13,12 @@ export default class GoogleSignIn extends React.Component {
     }
 
     updateSignInStatus(isSignedIn) {
+        var user = this.auth2.currentUser.get();
         if (isSignedIn) {
             $(document).trigger('google-logged-in');
-            localStorage.setItem('token', 'SAMPLE_API_TOKEN');
+            localStorage.setItem('token', user.getAuthResponse().id_token);
             this.setState({
-                identity: 'SAMPLE_USER_NAME'
+                identity: user.getBasicProfile().getName()
             });
         } else {
             $(document).trigger('google-logged-out');
@@ -44,7 +45,6 @@ export default class GoogleSignIn extends React.Component {
                     });
                     reactThis.auth2.isSignedIn.listen(reactThis.updateSignInStatus.bind(reactThis));
                     reactThis.updateSignInStatus(reactThis.auth2.isSignedIn.get());
-                    console.log('ok  d yee');
                 });
             });
         });
@@ -81,12 +81,10 @@ export default class GoogleSignIn extends React.Component {
         }
         return (
             <div className="inline-wrapper">
-                <p className="inline-element">
-                    {mainText}
-                    <em>{identityText}</em>
-                </p>
-                {shouldLogOutButtonVisible ? <button onClick={this.signOut.bind(this)}>Log out</button> : null}
-                {shouldLogInButtonVisible ? <button onClick={this.signIn.bind(this)}>Log in</button> : null}
+                <span className="inline-element">{mainText}</span>
+                <em className="inline-element">{identityText}</em>
+                {shouldLogOutButtonVisible ? <button className="inline-element" onClick={this.signOut.bind(this)}>Log out</button> : null}
+                {shouldLogInButtonVisible ? <button className="inline-element" onClick={this.signIn.bind(this)}>Log in</button> : null}
             </div>
         );
     }

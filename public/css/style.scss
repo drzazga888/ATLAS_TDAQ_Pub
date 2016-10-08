@@ -8,48 +8,9 @@ $color-accent: #EB5448;
 
 $margin-block: 2em 20px;
 $margin-default: 1em 20px;
-$margin-reduced-height: 0 20px;
+$margin-reduced-height: 0.4em 20px;
 $padding-block: 0 1em;
 $padding-button: 0.5em 1em;
-
-.block {
-  margin: $margin-block;
-  overflow: auto;
-  border-radius: 2px;
-  box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
-  background: $color-bkg-block;
-}
-
-.block > header {
-  border-bottom: dashed 1px $color-input;
-}
-
-.inline-wrapper {
-
-  .inline-element {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-}
-
-.description {
-  font-style: italic;
-  color: transparentize($color-font, 0.5);
-  font-size: 1.25em;
-}
-
-.move-left {
-  float: left;
-}
-
-.move-right {
-  float: right;
-}
-
-.sticky-footer-rest {
-  flex: 1;
-}
 
 button {
   border: none;
@@ -69,6 +30,12 @@ button:hover {
 
 button:active {
   top: 3px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
 * {
@@ -103,13 +70,54 @@ input {
   width: 400px;
 }
 
-#app-nav {
+.block {
+  margin: $margin-block;
   overflow: auto;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 5px;
   background: $color-bkg-block;
+}
+
+.block > header {
+  border-bottom: dashed 1px $color-input;
+}
+
+.inline-wrapper {
+  margin-left: -1em;
+
+  .inline-element {
+    margin-left: 1em;
+  }
+
+}
+
+.description {
+  font-style: italic;
+  color: transparentize($color-font, 0.5);
+  font-size: 1.25em;
+}
+
+.move-left {
+  float: left;
+}
+
+.move-right {
+  float: right;
+}
+
+.sticky-footer-rest {
+  flex: 1;
+}
+
+#app-nav {
+  background: $color-bkg-block;
+  padding: $margin-reduced-height;
+  overflow: auto;
 }
 
 #app-header {
   text-align: center;
+  overflow: auto;
 }
 
 #app-footer {
@@ -121,16 +129,13 @@ input {
 }
 
 #app-menu {
-  margin: $margin-default;
   padding: 0;
-  height: 100%;
+  margin: 0;
 }
 
 #app-menu li {
   display: inline-block;
-  vertical-align: middle;
-  font-size: 1.2em;
-  box-sizing: border-box;
+  margin: 0;
 }
 
 #app-menu a {
@@ -138,7 +143,7 @@ input {
   padding: $padding-button;
   position: relative;
   transition: background-color 0.2s;
-  top: 0;
+  display: block;
 }
 
 #app-menu a:hover {
