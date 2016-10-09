@@ -11,3 +11,4 @@ public/js/bundle.js
 public/css/style.css
 public/css/style.css.map
 .DS_Store
+/composer.lock
