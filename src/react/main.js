@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import ProjectList from './components/project-list';
 import GoogleSignIn from './components/google-sign-in';
-//import ProjectForm from './components/project-form';
+import ProjectForm from './components/project-form';
 
 $(document).ready(function(){
 
@@ -15,14 +15,14 @@ $(document).ready(function(){
         $('#project-list')[0]
     );
 
-    /*ReactDOM.render(
+    ReactDOM.render(
         <ProjectForm
             apiKey={googleApiKey}
             client={googleClient}
             docsUrl="/api/google-docs/"
         />,
         $('#project-form')[0]
-    );*/
+    );
 
     ReactDOM.render(
         <GoogleSignIn

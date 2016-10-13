@@ -8,8 +8,10 @@ export default class ProjectForm extends React.Component {
         this.state = {
             name: '',
             google_doc: '',
-            section: ''
+            section: '',
+            loaded: false
         };
+        this.loaded = false;
         this.picker = null;
     }
 
@@ -17,20 +19,9 @@ export default class ProjectForm extends React.Component {
         var reactThis = this;
         $(document).on('google-apis-loaded', function() {
             gapi.load('picker', function() {
-                var view = new google.picker.View(google.picker.ViewId.DOCS);
-                view.setMimeTypes("image/png,image/jpeg,image/jpg");
-                reactThis.picker = new google.picker.PickerBuilder()
-                    .enableFeature(google.picker.Feature.NAV_HIDDEN)
-                    .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-                    .setAppId(reactThis.props.client)
-                    .setOAuthToken(localStorage.getItem('token'))
-                    .addView(view)
-                    .addView(new google.picker.DocsUploadView())
-                    .setDeveloperKey(reactThis.props.apiKey)
-                    .setCallback(function() {
-                        console.log('done');
-                    })
-                    .build();
+                reactThis.setState({
+                    loaded: true
+                });
             });
         });
     }
@@ -50,7 +41,23 @@ export default class ProjectForm extends React.Component {
     }
 
     showDocsPicker() {
-        this.picker.setVisible(true);
+        var reactThis = this;
+        if (localStorage.getItem('access_token') && this.state.loaded) {
+            this.picker = new google.picker.PickerBuilder()
+                .addView(google.picker.ViewId.DOCUMENTS)
+                .setOAuthToken(localStorage.getItem('access_token'))
+                .setDeveloperKey(this.props.apiKey)
+                .setCallback(function(data) {
+                    if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+                        var doc = data[google.picker.Response.DOCUMENTS][0];
+                        reactThis.setState({
+                            google_doc: doc[google.picker.Document.ID]
+                        });
+                    }
+                })
+                .build();
+            this.picker.setVisible(true);
+        }
     }
 
     render() {
@@ -64,7 +71,7 @@ export default class ProjectForm extends React.Component {
                         <input type="text" value={this.state.name} placeholder="Enter the name of project"/>
                     </p>
                     <p>
-                        <input type="text" value={this.state.google_doc} placeholder="Chose the Google Doc template" />
+                        Google Doc template: <em>{this.state.google_doc}</em>
                         <button onClick={this.showDocsPicker.bind(this)}>Select Google Document</button>
                     </p>
                     <p>

@@ -19,7 +19,7 @@ export default class ProjectList extends React.Component {
             dataType: 'json',
             cache: false,
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+                xhr.setRequestHeader('Authorization', localStorage.getItem('id_token'));
             },
             success: function (data) {
                 this.setState({

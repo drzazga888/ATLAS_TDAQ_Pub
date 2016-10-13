@@ -16,13 +16,15 @@ export default class GoogleSignIn extends React.Component {
         var user = this.auth2.currentUser.get();
         if (isSignedIn) {
             $(document).trigger('google-logged-in');
-            localStorage.setItem('token', user.getAuthResponse().id_token);
+            localStorage.setItem('id_token', user.getAuthResponse().id_token);
+            localStorage.setItem('access_token', user.getAuthResponse().access_token);
             this.setState({
                 identity: user.getBasicProfile().getName()
             });
         } else {
             $(document).trigger('google-logged-out');
-            localStorage.removeItem('token');
+            localStorage.removeItem('id_token');
+            localStorage.removeItem('access_token');
             this.setState({
                 identity: null
             });
@@ -37,7 +39,7 @@ export default class GoogleSignIn extends React.Component {
                 reactThis.gAuth = gapi.auth2.init({
                     client_id: reactThis.props.client,
                     //fetch_basic_profile: false,
-                    scope: 'profile'
+                    scope: 'profile https://www.googleapis.com/auth/documents'
                 }).then(function () {
                     reactThis.auth2 = gapi.auth2.getAuthInstance();
                     reactThis.setState({
