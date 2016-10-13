@@ -19,7 +19,7 @@ $(document).ready(function(){
         <ProjectForm
             apiKey={googleApiKey}
             client={googleClient}
-            docsUrl="/api/google-docs/"
+            url="/api/project/"
         />,
         $('#project-form')[0]
     );
