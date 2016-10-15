@@ -1,5 +1,5 @@
 import React from 'react';
-import $ from 'jquery';
+import config from '../config.js';
 
 export default class GoogleSignIn extends React.Component {
 
@@ -15,16 +15,13 @@ export default class GoogleSignIn extends React.Component {
     updateSignInStatus(isSignedIn) {
         var user = this.auth2.currentUser.get();
         if (isSignedIn) {
-            $(document).trigger('google-logged-in');
-            localStorage.setItem('id_token', user.getAuthResponse().id_token);
-            localStorage.setItem('access_token', user.getAuthResponse().access_token);
+            var authResponse = user.getAuthResponse();
+            config.tokens.set_all(authResponse.id_token, authResponse.access_token);
             this.setState({
                 identity: user.getBasicProfile().getName()
             });
         } else {
-            $(document).trigger('google-logged-out');
-            localStorage.removeItem('id_token');
-            localStorage.removeItem('access_token');
+            config.tokens.unset_all();
             this.setState({
                 identity: null
             });
@@ -33,21 +30,19 @@ export default class GoogleSignIn extends React.Component {
 
     componentDidMount() {
         var reactThis = this;
-        $(document).on('google-apis-loaded', function() {
-            gapi.load('client:auth2', function() {
-                gapi.client.setApiKey(reactThis.props.apiKey);
-                reactThis.gAuth = gapi.auth2.init({
-                    client_id: reactThis.props.client,
-                    //fetch_basic_profile: false,
-                    scope: 'profile https://www.googleapis.com/auth/documents'
-                }).then(function () {
-                    reactThis.auth2 = gapi.auth2.getAuthInstance();
-                    reactThis.setState({
-                        loaded: true
-                    });
-                    reactThis.auth2.isSignedIn.listen(reactThis.updateSignInStatus.bind(reactThis));
-                    reactThis.updateSignInStatus(reactThis.auth2.isSignedIn.get());
+        gapi.load('client:auth2', function() {
+            gapi.client.setApiKey(config.keys.api);
+            reactThis.gAuth = gapi.auth2.init({
+                client_id: config.keys.client,
+                //fetch_basic_profile: false,
+                scope: config.scope
+            }).then(function() {
+                reactThis.auth2 = gapi.auth2.getAuthInstance();
+                reactThis.setState({
+                    loaded: true
                 });
+                reactThis.auth2.isSignedIn.listen(reactThis.updateSignInStatus.bind(reactThis));
+                reactThis.updateSignInStatus(reactThis.auth2.isSignedIn.get());
             });
         });
     }

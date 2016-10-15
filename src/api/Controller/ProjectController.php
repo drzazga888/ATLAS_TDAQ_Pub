@@ -3,30 +3,32 @@
 namespace Api\Controller;
 
 use Api\Model\Project;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
 
 class ProjectController extends AbstractController {
 
-    public function getProjects($request, $response) {
-        if ($this->authorize()) {
-            $fromDb = $this->ci->db->table('projects')->get();
-            return $response->withJson($fromDb);
-        } else {
-            return $response->withStatus(401);
-        }
+    protected $projectTable;
+
+    public function __construct($ci) {
+        parent::__construct($ci);
+        $this->projectTable = $this->ci->db->table('projects');
     }
 
-    public function createProject($request, $response) {
-        if ($this->authorize()) {
-            $project = new Project();
-            $project->name = $request->getAttribute('name');
-            $project->google_doc = $request->getAttribute('google_doc');
-            $project->section = $request->getAttribute('section');
-            $id = $project->save();
-            return $response->withJson(['id' => $id]);
-        } else {
-            return $response->withStatus(401);
-        }
+    public function getProjects(Request $request, Response $response) {
+        $fromDb = $this->projectTable->get();
+        return $response->withJson($fromDb);
+    }
+
+    public function createProject(Request $request, Response $response) {
+        $project = new Project();
+        $args = $request->getParsedBody();
+        $project->name = $args['name'];
+        $project->google_doc_id = $args['google_doc_id'];
+        $project->section = $args['section'];
+        $project->save();
+        return $response->withJson(['result' => 'ok']);
     }
 
 }

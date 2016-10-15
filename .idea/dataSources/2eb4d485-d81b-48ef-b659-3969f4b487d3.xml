@@ -21,9 +21,9 @@
       <mandatory>1</mandatory>
       <data-type>varchar(40)|0</data-type>
     </column>
-    <column id="12" parent="9" name="google_doc">
+    <column id="12" parent="9" name="google_doc_id">
       <mandatory>1</mandatory>
-      <data-type>varchar(40)|0</data-type>
+      <data-type>varchar(80)|0</data-type>
     </column>
     <column id="13" parent="9" name="section">
       <data-type>int(11)|0</data-type>

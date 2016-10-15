@@ -4,7 +4,8 @@ $color-input: #3A689C;
 $color-font: #DBFFF2;
 $color-font-see-through: transparentize($color-font, 0.5);
 $color-font-see-through-more: transparentize($color-font, 0.8);
-$color-accent: #EB5448;
+$color-accent: #1be976;
+$color-error: #EB5448;
 
 $margin-block: 2em 20px;
 $margin-default: 1em 20px;
@@ -30,6 +31,12 @@ button:hover {
 
 button:active {
   top: 3px;
+}
+
+button:disabled {
+  background-color: $color-font-see-through-more;
+  opacity: 0.5;
+  cursor: auto;
 }
 
 *,
@@ -68,6 +75,21 @@ input {
   border-bottom: solid 2px $color-accent;
   padding: $padding-button;
   width: 400px;
+}
+
+input:invalid {
+  border-color: $color-error;
+  box-shadow: none;
+}
+
+table {
+  border-collapse: collapse;
+  margin: $margin-default;
+}
+
+tr > * {
+  padding: $padding-button;
+  border-bottom: solid 1px $color-font-see-through-more;
 }
 
 .block {

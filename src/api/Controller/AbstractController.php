@@ -17,10 +17,4 @@ abstract class AbstractController {
         $this->ci = $ci;
     }
 
-    protected function authorize() {
-        $client = $this->ci->google_client;
-        $token = $this->ci->request->getHeader('Authorization');
-        return $token ? $client->verifyIdToken($token[0]) : null;
-    }
-
 }
