@@ -7,7 +7,7 @@ import GoogleSignIn from './components/google-sign-in';
 ReactDOM.render(
     <ProjectBox url="/api/project/" />,
     $('#project-box')[0]
-)
+);
 
 ReactDOM.render(
     <GoogleSignIn />,

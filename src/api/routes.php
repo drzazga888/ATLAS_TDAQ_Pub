@@ -13,15 +13,13 @@ $app->get('/', function (Request $request, Response $response, $args) {
 // api routes
 $app->group('/api', function() use ($app) {
 
-    // routes related to projects
     $app->group('/project', function () use ($app) {
-
-        // get all projects
         $app->get('/', '\\Api\\Controller\\ProjectController:getProjects');
-
-        // add new project
         $app->post('/', '\\Api\\Controller\\ProjectController:createProject');
+    });
 
+    $app->group('/template', function() use ($app) {
+        $app->get('/{id}/', '\\Api\\Controller\\TemplateController:getTemplate');
     });
 
 })->add($auth_middleware); // all of the api routes must be authenticated

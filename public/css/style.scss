@@ -73,6 +73,7 @@ input {
   border: none;
   background: transparent;
   border-bottom: solid 2px $color-accent;
+  transition: border-color 0.5s;
   padding: $padding-button;
   width: 400px;
 }

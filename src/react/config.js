@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 var config = {
 
-    scope: 'profile https://www.googleapis.com/auth/documents',
+    scope: 'profile https://www.googleapis.com/auth/documents https://www.googleapis.com/auth/drive',
 
     keys: {
         api: "AIzaSyC0Y7UDbqI2urerN7tKQ5-5rUnbYniDS-o",

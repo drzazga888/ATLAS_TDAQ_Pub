@@ -18,6 +18,8 @@ $container['google_client'] = function(ContainerInterface $c) {
     $settings = $c->get('settings')['google_client'];
     $client = new \Google_Client();
     $client->setAuthConfigFile($settings['client_secret']);
+    $client->setScopes($settings['scopes']);
+    $client->setDeveloperKey($settings['developer_key']);
     return $client;
 };
 
