@@ -15,7 +15,7 @@ class TemplateController extends AbstractController {
     // catching header and content blocks
     // https://regex101.com/r/eTvlea/1
     // https://regex101.com/delete/KtsMKdCSXNGYwTOC7yj4ACTM
-    const REGEX_SECTION_SPLITTER = '/(.*?)\n((.*?)={5,}\n)?(.*)/si';
+    const REGEX_SECTION_SPLITTER = '/^(.*?)\n((.*?)={5,}\n)?(.*?)(\n-{5,}\n(.*))?$/si';
 
     // catching lines inside header
     const REGEX_HEADER_SPLITTER = '/(to|cc|subject): (.*)/i';
@@ -36,6 +36,9 @@ class TemplateController extends AbstractController {
             preg_match_all(self::REGEX_SECTION_SPLITTER, $section['text'], $matches);
             $section['name'] = $matches[1][0];
             $section['body'] = $matches[4][0];
+            if ($matches[6][0]) {
+                $section['meta'] = $matches[6][0];
+            }
             $header = $matches[3][0];
             unset($section['text']);
             // split header
