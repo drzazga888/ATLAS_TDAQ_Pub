@@ -12,44 +12,168 @@
     <schema id="7" name="performance_schema"/>
     <schema id="8" name="sys"/>
     <table id="9" parent="1" name="projects"/>
-    <column id="10" parent="9" name="id">
+    <table id="10" parent="1" name="projects_replacements"/>
+    <table id="11" parent="1" name="projects_replacements_global"/>
+    <table id="12" parent="1" name="projects_replacements_recipient_email"/>
+    <table id="13" parent="1" name="projects_replacements_recipient_name"/>
+    <table id="14" parent="1" name="recipients"/>
+    <column id="15" parent="9" name="id">
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="11" parent="9" name="name">
+    <column id="16" parent="9" name="name">
       <mandatory>1</mandatory>
       <data-type>varchar(40)|0</data-type>
     </column>
-    <column id="12" parent="9" name="google_doc_id">
+    <column id="17" parent="9" name="user_id">
       <mandatory>1</mandatory>
-      <data-type>varchar(80)|0</data-type>
+      <data-type>varchar(40)|0</data-type>
     </column>
-    <column id="13" parent="9" name="section">
-      <data-type>int(11)|0</data-type>
+    <column id="18" parent="9" name="document_id">
+      <data-type>varchar(40)|0</data-type>
     </column>
-    <column id="14" parent="9" name="created_at">
-      <mandatory>1</mandatory>
-      <data-type>datetime|0</data-type>
-      <default-expression>CURRENT_TIMESTAMP</default-expression>
+    <column id="19" parent="9" name="bookmark_id">
+      <data-type>varchar(40)|0</data-type>
     </column>
-    <column id="15" parent="9" name="updated_at">
+    <column id="20" parent="9" name="created_at">
       <mandatory>1</mandatory>
       <data-type>datetime|0</data-type>
       <default-expression>CURRENT_TIMESTAMP</default-expression>
     </column>
-    <index id="16" parent="9" name="name">
-      <columns>name</columns>
+    <column id="21" parent="9" name="updated_at">
+      <mandatory>1</mandatory>
+      <data-type>datetime|0</data-type>
+      <default-expression>CURRENT_TIMESTAMP</default-expression>
+    </column>
+    <index id="22" parent="9" name="unique_name_for_user">
+      <columns>user_id
+name</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <key id="17" parent="9" name="PRIMARY">
+    <key id="23" parent="9" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <key id="18" parent="9" name="name">
-      <columns>name</columns>
-      <underlying-index>name</underlying-index>
+    <key id="24" parent="9" name="unique_name_for_user">
+      <columns>user_id
+name</columns>
+      <underlying-index>unique_name_for_user</underlying-index>
+    </key>
+    <column id="25" parent="10" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="26" parent="10" name="project_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="27" parent="10" name="search">
+      <mandatory>1</mandatory>
+      <data-type>varchar(100)|0</data-type>
+    </column>
+    <index id="28" parent="10" name="unique_search_for_project">
+      <columns>project_id
+search</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="29" parent="10" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <key id="30" parent="10" name="unique_search_for_project">
+      <columns>project_id
+search</columns>
+      <underlying-index>unique_search_for_project</underlying-index>
+    </key>
+    <column id="31" parent="11" name="project_replacement_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="32" parent="11" name="replace_to">
+      <mandatory>1</mandatory>
+      <data-type>varchar(200)|0</data-type>
+    </column>
+    <key id="33" parent="11" name="PRIMARY">
+      <columns>project_replacement_id</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="34" parent="11" name="projects_replacements_global_ibfk_1">
+      <columns>project_replacement_id</columns>
+      <ref-key>~.projects_replacements.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>delete</cascade-delete-rule>
+    </foreign-key>
+    <column id="35" parent="12" name="project_replacement_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="36" parent="12" name="recipient_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <key id="37" parent="12" name="PRIMARY">
+      <columns>project_replacement_id</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="38" parent="12" name="projects_replacements_recipient_email_ibfk_1">
+      <columns>project_replacement_id</columns>
+      <ref-key>~.projects_replacements.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>delete</cascade-delete-rule>
+    </foreign-key>
+    <column id="39" parent="13" name="project_replacement_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="40" parent="13" name="recipient_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <key id="41" parent="13" name="PRIMARY">
+      <columns>project_replacement_id</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="42" parent="13" name="projects_replacements_recipient_name_ibfk_1">
+      <columns>project_replacement_id</columns>
+      <ref-key>~.projects_replacements.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>delete</cascade-delete-rule>
+    </foreign-key>
+    <column id="43" parent="14" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="44" parent="14" name="user_id">
+      <mandatory>1</mandatory>
+      <data-type>varchar(40)|0</data-type>
+    </column>
+    <column id="45" parent="14" name="email">
+      <mandatory>1</mandatory>
+      <data-type>varchar(40)|0</data-type>
+    </column>
+    <column id="46" parent="14" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(40)|0</data-type>
+    </column>
+    <index id="47" parent="14" name="unique_email_for_user">
+      <columns>user_id
+email</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="48" parent="14" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <key id="49" parent="14" name="unique_email_for_user">
+      <columns>user_id
+email</columns>
+      <underlying-index>unique_email_for_user</underlying-index>
     </key>
   </database-model>
 </dataSource>
