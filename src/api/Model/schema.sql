@@ -1,3 +1,10 @@
+DROP TABLE projects_replacements_recipient_name;
+DROP TABLE projects_replacements_recipient_email;
+DROP TABLE projects_replacements_global;
+DROP TABLE projects_replacements;
+DROP TABLE recipients;
+DROP TABLE projects;
+
 CREATE TABLE projects (
   id          INTEGER     NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name        VARCHAR(40) NOT NULL,
@@ -26,9 +33,10 @@ CREATE TABLE projects_replacements (
 );
 
 CREATE TABLE projects_replacements_global (
-  project_replacement_id INTEGER      NOT NULL REFERENCES projects_replacements (id)
-    ON DELETE CASCADE,
-  replace_to             VARCHAR(200) NOT NULL
+  project_replacement_id INTEGER      NOT NULL PRIMARY KEY,
+  replace_to             VARCHAR(200) NOT NULL,
+  FOREIGN KEY (project_replacement_id) REFERENCES projects_replacements (id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE projects_replacements_recipient_email (
