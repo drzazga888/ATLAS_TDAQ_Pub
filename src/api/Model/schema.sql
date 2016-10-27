@@ -1,19 +1,26 @@
-DROP TABLE projects_replacements_recipient_name;
-DROP TABLE projects_replacements_recipient_email;
-DROP TABLE projects_replacements_global;
-DROP TABLE projects_replacements;
-DROP TABLE recipients;
-DROP TABLE projects;
+DROP TABLE IF EXISTS projects_replacements_recipient_name;
+DROP TABLE IF EXISTS projects_replacements_recipient_email;
+DROP TABLE IF EXISTS projects_replacements_global;
+DROP TABLE IF EXISTS projects_replacements;
+DROP TABLE IF EXISTS recipients;
+DROP TABLE IF EXISTS templates;
+DROP TABLE IF EXISTS projects;
 
 CREATE TABLE projects (
-  id          INTEGER     NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  name        VARCHAR(40) NOT NULL,
-  user_id     VARCHAR(40) NOT NULL,
-  document_id VARCHAR(40),
-  bookmark_id VARCHAR(40),
-  created_at  DATETIME    NOT NULL             DEFAULT CURRENT_TIMESTAMP,
-  updated_at  DATETIME    NOT NULL             DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id         INTEGER     NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name       VARCHAR(40) NOT NULL,
+  user_id    VARCHAR(40) NOT NULL,
+  created_at DATETIME    NOT NULL             DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME    NOT NULL             DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY unique_name_for_user (user_id, name)
+);
+
+CREATE TABLE templates (
+  project_id  INTEGER     NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  document_id VARCHAR(40) NOT NULL,
+  bookmark_id VARCHAR(40),
+  FOREIGN KEY (project_id) REFERENCES projects (id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE recipients (
