@@ -24,3 +24,9 @@ $app->group('/api', function() use ($app) {
 
 })->add($auth_middleware); // all of the api routes must be authenticated
 
+// for tests
+$app->group('/test', function() use ($app) {
+
+    $app->get('/', '\\Api\\Controller\\TestController:test');
+
+});

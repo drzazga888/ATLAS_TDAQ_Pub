@@ -15,6 +15,7 @@ abstract class AbstractController {
 
     public function __construct($ci) {
         $this->ci = $ci;
+        $this->ci->db; // boot eloquent
     }
 
 }
