@@ -30,10 +30,7 @@ return [
         ],
 
         'google_script' => [
-            'split_to_sections' => [
-                'script_id' => 'M7OzFiTA4OzkP1yvfOmOWIFGFM_sLa-iq',
-                'function_name' => 'splitToSections'
-            ]
+            'script_id' => 'M7OzFiTA4OzkP1yvfOmOWIFGFM_sLa-iq',
         ]
     ],
 ];

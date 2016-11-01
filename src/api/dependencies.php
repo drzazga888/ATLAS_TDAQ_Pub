@@ -29,5 +29,10 @@ $container['db'] = function (ContainerInterface $c) {
     $capsule->addConnection($c['settings']['db']);
     $capsule->setAsGlobal();
     $capsule->bootEloquent();
+    \Illuminate\Database\Eloquent\Relations\Relation::morphMap([
+        'normal' => \Api\Model\ProjectReplacementNormal::class,
+        'recipient_email' => \Api\Model\ProjectReplacementRecipientEmail::class,
+        'recipient_name' => \Api\Model\ProjectReplacementRecipientName::class
+    ]);
     return $capsule;
 };

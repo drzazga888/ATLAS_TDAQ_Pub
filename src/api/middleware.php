@@ -14,11 +14,10 @@ $auth_middleware = function(Request $request, Response $response, $next) use ($a
         $client->setAccessToken($accessToken[0]);
         $parsedToken = json_decode($accessToken[0]);
         $authorized = $client->verifyIdToken($parsedToken->id_token);
-        $ci->logger->debug($parsedToken->id_token);
     }
 
     if ($authorized) {
-        return $next($request, $response);
+        return $next($request->withAttribute('user_id', $authorized['sub']), $response);
     } else {
         return $response->withStatus(401);
     }

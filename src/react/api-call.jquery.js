@@ -13,11 +13,12 @@ $.apiCall = function(method, url, data) {
     return $.ajax({
         url: $.apiCallPrefix + url,
         dataType: 'json',
-        data: data,
+        data: data ? JSON.stringify(data) : null,
         method: method,
         cache: false,
         beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', config.tokens.id);
+            xhr.setRequestHeader('Authorization', JSON.stringify(gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse()));
+            xhr.setRequestHeader('Content-Type', 'application/json');
         }
     });
 

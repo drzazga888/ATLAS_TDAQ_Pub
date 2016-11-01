@@ -2,59 +2,84 @@
 
 namespace Api\Controller;
 
+use Api\Util\TemplateParser;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-/*
- * JSON.stringify(gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse())
- * /api/template/1VlZ5lyw9RQd108de6wF9y3UchTH6xVxW7zwqj3_RHOc/
- */
-
 class TemplateController extends AbstractController {
 
-    // catching header and content blocks
-    // https://regex101.com/r/eTvlea/1
-    // https://regex101.com/delete/KtsMKdCSXNGYwTOC7yj4ACTM
-    const REGEX_SECTION_SPLITTER = '/^(.*?)\n((.*?)={5,}\n)?(.*?)(\n-{5,}\n(.*))?$/si';
+    public function getDocuments(Request $request, Response $response) {
 
-    // catching lines inside header
-    const REGEX_HEADER_SPLITTER = '/(to|cc|subject): (.*)/i';
+        // make google script call
+        $script_config = $this->ci->get('settings')['google_script'];
+        $script_service = new \Google_Service_Script($this->ci->google_client);
+
+        $script_request = new \Google_Service_Script_ExecutionRequest();
+        $script_request->setFunction('getDocuments');
+        $script_response = $script_service->scripts->run(
+            $script_config['script_id'],
+            $script_request
+        );
+
+        $result = $script_response->getResponse()['result'];
+        return $response->withJson($result);
+    }
+
+    public function getBookmarks(Request $request, Response $response, $args) {
+
+        $document_id = $args['document_id'];
+
+        // make google script call
+        $script_config = $this->ci->get('settings')['google_script'];
+        $script_service = new \Google_Service_Script($this->ci->google_client);
+
+        $script_request = new \Google_Service_Script_ExecutionRequest();
+        $script_request->setFunction('getBookmarks');
+        $script_request->setParameters([
+            $document_id
+        ]);
+        $script_response = $script_service->scripts->run(
+            $script_config['script_id'],
+            $script_request
+        );
+
+        $result = $script_response->getResponse()['result'];
+        if (!$result) {
+            return $response->withStatus(404);
+        }
+        return $response->withJson($result);
+    }
 
     public function getTemplate(Request $request, Response $response, $args) {
 
-        $config = $this->ci->get('settings')['google_script']['split_to_sections'];
+        $document_id = $args['document_id'];
+        $bookmark_id = $args['bookmark_id'] === 'whole' ? null : $args['bookmark_id'];
 
-        $service = new \Google_Service_Script($this->ci->google_client);
-        $serviceRequest = new \Google_Service_Script_ExecutionRequest();
-        $serviceRequest->setFunction($config['function_name']);
-        $serviceRequest->setParameters([$args['id']]);
-        $serviceResponse = $service->scripts->run($config['script_id'], $serviceRequest);
+        // make google script call
+        $script_config = $this->ci->get('settings')['google_script'];
+        $script_service = new \Google_Service_Script($this->ci->google_client);
 
-        $sections = $serviceResponse->getResponse()['result'];
+        $script_request = new \Google_Service_Script_ExecutionRequest();
+        $script_request->setFunction('getTemplate');
+        $script_request->setParameters([
+            $document_id,
+            $bookmark_id
+        ]);
+        $script_response = $script_service->scripts->run(
+            $script_config['script_id'],
+            $script_request
+        );
 
-        foreach ($sections as &$section) {
-            preg_match_all(self::REGEX_SECTION_SPLITTER, $section['text'], $matches);
-            $section['name'] = $matches[1][0];
-            $section['body'] = $matches[4][0];
-            if ($matches[6][0]) {
-                $section['meta'] = $matches[6][0];
-            }
-            $header = $matches[3][0];
-            unset($section['text']);
-            // split header
-            foreach (explode("\n", $header) as &$headerLine) {
-                if (preg_match_all(self::REGEX_HEADER_SPLITTER, $headerLine, $matches)) {
-                    $name = strtolower($matches[1][0]);
-                    $value = $matches[2][0];
-                    if (in_array($name, ['to', 'cc'])) {
-                        $value = array_filter(array_map('trim', explode(',', $value)));
-                    }
-                    $section[$name] = $value;
-                }
-            }
+        $template = $script_response->getResponse()['result'];
+        if (!$template) {
+            return $response->withStatus(404);
         }
 
-        return $response->withJson($sections);
+        $parser = new TemplateParser($template['raw']);
+        unset($template['raw']);
+        $template['template'] = $parser->parse();
+
+        return $response->withJson($template);
     }
 
 }
